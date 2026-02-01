@@ -1,0 +1,24 @@
+{
+  "name": "crypto-market",
+  "version": "1.0.0",
+  "description": "A Rust-based off-chain crypto market implementation with API Gateway, Matching Engine, and various services.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keshu12345/crypto-market.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keshu12345/crypto-market/issues"
+  },
+  "homepage": "https://github.com/keshu12345/crypto-market#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}

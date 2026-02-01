@@ -7,20 +7,22 @@ use sqlx::PgPool;
 use crate::engine::types::{Order, OrderStatus, OrderType, Side, MatchResult};
 use crate::engine::matching_engine::MatchingEngine;
 
+#[derive(Clone)]
 pub struct OrderService {
-    db_pool: PgPool,
+    db_pool: Arc<PgPool>,
     matching_engine: Arc<Mutex<MatchingEngine>>,
     // user_service: Arc<UserService>, etc.
 }
 
 impl OrderService {
-    pub fn new(matching_engine: Arc<Mutex<MatchingEngine>>) -> Self {
-        // TODO: initialize db_pool
-        let db_pool = todo!();
-        Self {
+    pub async fn new(matching_engine: Arc<Mutex<MatchingEngine>>) -> Result<Self, Box<dyn std::error::Error>> {
+        // Initialize db_pool
+        let database_url = std::env::var("DATABASE_URL").unwrap_or("postgres://postgres@localhost/matching_engine".to_string());
+        let db_pool = Arc::new(sqlx::PgPool::connect(&database_url).await?);
+        Ok(Self {
             db_pool,
             matching_engine,
-        }
+        })
     }
 
     pub async fn place_order(

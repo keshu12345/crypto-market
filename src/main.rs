@@ -1,19 +1,21 @@
-mod api;
-mod services;
-mod engine;
-
-use std::sync::Arc;
-use tokio::sync::Mutex;
+use axum::{
+    routing::get,
+    Router,
+};
+use std::net::SocketAddr;
 
 #[tokio::main]
 async fn main() {
-    tracing_subscriber::fmt::init();
+    // Simple health check endpoint
+    let app = Router::new()
+        .route("/", get(|| async { "Crypto Market API Gateway" }))
+        .route("/health", get(|| async { "OK" }));
 
-    // Initialize services
-    let matching_engine = Arc::new(Mutex::new(engine::matching_engine::MatchingEngine::new("SOL-USDC".to_string())));
-    let order_service = Arc::new(services::order_service::OrderService::new(matching_engine.clone()));
-    // TODO: initialize other services
+    let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
+    println!("🚀 Server running on http://{}", addr);
 
-    // Start API Gateway
-    api::gateway::start_gateway(order_service).await;
+    axum::Server::bind(&addr)
+        .serve(app.into_make_service())
+        .await
+        .unwrap();
 }

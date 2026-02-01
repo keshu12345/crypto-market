@@ -1,22 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { WalletProvider } from '../providers/WalletProvider';
-import { Header } from '../components/Header';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Solana DEX",
-  description: "Decentralized exchange for Solana",
+  title: "Crypto DEX",
+  description: "Cryptocurrency trading interface",
 };
 
 export default function RootLayout({
@@ -26,15 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white min-h-screen`}
-      >
-        <WalletProvider>
-          <Header />
-          <main className="container mx-auto px-4 py-8">
-            {children}
-          </main>
-        </WalletProvider>
+      <body className={`${inter.className} bg-gray-900 text-white min-h-screen`}>
+        <main className="container mx-auto px-4 py-8">
+          {children}
+        </main>
       </body>
     </html>
   );
